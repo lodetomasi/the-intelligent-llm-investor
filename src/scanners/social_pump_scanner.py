@@ -190,30 +190,40 @@ class SocialPumpScanner:
         return dict(all_tickers)
         
     def _scan_reddit_for_pumps(self) -> Counter:
-        """Scan Reddit for pump activity"""
+        """Scan Reddit for pump activity using smart detection"""
         ticker_counts = Counter()
         
-        # Pump-related search queries
-        pump_queries = [
-            'short squeeze',
-            'to the moon',
-            'rocket ship',
-            'next GME',
-            'buy the dip',
-            'pump',
-            'breakout alert',
-            'millionaire maker'
-        ]
+        # Load configuration
+        import yaml
+        from pathlib import Path
+        config_path = Path(__file__).parent.parent.parent / "config" / "config.yaml"
+        with open(config_path, 'r') as f:
+            config = yaml.safe_load(f)
         
-        # Pump-prone subreddits
-        pump_subs = [
-            'wallstreetbets',
-            'pennystocks', 
-            'Shortsqueeze',
-            'SqueezePlays',
-            'RobinHoodPennyStocks',
-            'smallstreetbets'
-        ]
+        pump_config = config.get('pump_detection', {})
+        smart_mode = pump_config.get('smart_mode', {})
+        
+        # Get search queries from config
+        search_strategies = pump_config.get('search_strategies', {})
+        pump_queries = []
+        
+        # Smart mode: prioritize different query types
+        if smart_mode.get('enabled', True):
+            # Mix different types of queries for better detection
+            pump_queries.extend(search_strategies.get('explicit_pump_terms', [])[:2])
+            pump_queries.extend(search_strategies.get('momentum_terms', [])[:3])
+            pump_queries.extend(search_strategies.get('volume_terms', [])[:2])
+        else:
+            # Traditional mode: use all keywords
+            for category in search_strategies.values():
+                if isinstance(category, list):
+                    pump_queries.extend(category)
+        
+        # Get subreddits from config
+        target_subs = pump_config.get('target_subreddits', {})
+        pump_subs = []
+        pump_subs.extend(target_subs.get('high_risk', []))
+        pump_subs.extend(target_subs.get('medium_risk', [])[:3])
         
         # Search for pump keywords
         for query in pump_queries[:5]:  # Limit to avoid rate limiting
@@ -237,20 +247,48 @@ class SocialPumpScanner:
             try:
                 posts = self.reddit.fetch_subreddit_posts(sub, 'hot', limit=25)
                 
-                for post in posts:
-                    tickers = self._extract_tickers_from_text(
-                        f"{post.get('title', '')} {post.get('selftext', '')}"
-                    )
+                # Smart detection: analyze post patterns
+                if smart_mode.get('enabled', True) and smart_mode.get('analyze_trending', True):
+                    # Analyze posts for pump patterns without keyword bias
+                    from .smart_pump_detector import SmartPumpDetector
+                    detector = SmartPumpDetector()
                     
-                    # Weight by engagement
-                    weight = 1
-                    if post.get('score', 0) > 100:
-                        weight = 2
-                    if post.get('score', 0) > 1000:
-                        weight = 3
+                    # Group posts by ticker
+                    ticker_posts = {}
+                    for post in posts:
+                        tickers = self._extract_tickers_from_text(
+                            f"{post.get('title', '')} {post.get('selftext', '')}"
+                        )
+                        for ticker in tickers:
+                            if ticker not in ticker_posts:
+                                ticker_posts[ticker] = []
+                            ticker_posts[ticker].append(post)
+                    
+                    # Analyze each ticker's posts
+                    for ticker, t_posts in ticker_posts.items():
+                        if len(t_posts) >= 3:  # Need multiple posts for pattern analysis
+                            signals = detector.analyze_without_keywords(t_posts)
+                            pump_prob = detector.calculate_pump_probability(signals)
+                            
+                            # Weight by pump probability
+                            weight = 1 + int(pump_prob * 5)  # 1-6 weight based on probability
+                            ticker_counts[ticker] += weight * len(t_posts)
+                else:
+                    # Traditional keyword-based detection
+                    for post in posts:
+                        tickers = self._extract_tickers_from_text(
+                            f"{post.get('title', '')} {post.get('selftext', '')}"
+                        )
                         
-                    for ticker in tickers:
-                        ticker_counts[ticker] += weight
+                        # Weight by engagement
+                        weight = 1
+                        if post.get('score', 0) > 100:
+                            weight = 2
+                        if post.get('score', 0) > 1000:
+                            weight = 3
+                            
+                        for ticker in tickers:
+                            ticker_counts[ticker] += weight
                         
                 time.sleep(1)
             except Exception as e:

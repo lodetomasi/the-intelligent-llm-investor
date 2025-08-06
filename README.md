@@ -1,4 +1,4 @@
-# The Intelligent LLM Investor
+# The Intelligent LLM Investor 🤖💰
 
 <div align="center">
 
@@ -8,255 +8,256 @@
 
 **AI-Powered Pump & Dump Detection System**
 
-*Automatically detect potential pump & dump schemes across social media platforms using advanced LLM analysis*
+*Detects cryptocurrency and stock pump & dump schemes by analyzing momentum patterns across social media*
 
 </div>
 
 ---
 
-## Overview
+## 🌟 Overview
 
-The Intelligent LLM Investor is a sophisticated financial analysis tool that automatically scans multiple social media platforms to detect potential pump & dump schemes in real-time. Using state-of-the-art language models and comprehensive data aggregation, it provides investors with early warning signals about suspicious market manipulation activities.
+The Intelligent LLM Investor uses advanced AI to detect pump & dump schemes by analyzing momentum patterns across social media platforms. Unlike traditional systems that monitor specific tickers, this system discovers pumps organically by detecting unusual activity patterns first, then identifying which assets are being manipulated.
 
-### Key Features
+### ✨ Key Features
 
-- **Automatic Detection**: No need to specify tickers - the system automatically finds trending stocks
-- **Multi-Platform Coverage**: Scans Reddit, StockTwits, 4chan, InvestorsHub, BitcoinTalk, and more
-- **AI-Powered Analysis**: Uses advanced LLMs to analyze sentiment, patterns, and manipulation signals
-- **Real-Time Monitoring**: Continuously scans for new pump & dump activities
-- **Comprehensive Reporting**: Detailed analysis with risk scores, confidence levels, and evidence
-- **Data Preservation**: Saves all scraped data and AI analyses for future reference
+- **🌊 Momentum-Based Detection**: Finds pumps by detecting activity surges, not by monitoring tickers
+- **🔍 Asset Extraction**: AI automatically identifies company/crypto names from discussions  
+- **📊 Multi-Platform Analysis**: Monitors Reddit (36+ subreddits), StockTwits, 4chan
+- **🤖 AI-Powered Analysis**: Uses Claude 3.5 Sonnet for sophisticated pattern recognition
+- **⚡ Real-Time Alerts**: Identifies high-risk patterns as they develop
+- **📈 Risk Assessment**: Provides pump probability, coordination scores, and red flags
 
-## Architecture
-
-```mermaid
-graph TB
-    A[automatic_pump_finder.py] --> B[SocialPumpScanner]
-    B --> C[Social Media Aggregator]
-    B --> D[Super Analyst AI]
-    B --> E[Data Saver]
-    
-    C --> F[Reddit/YARS]
-    C --> G[StockTwits]
-    C --> H[4chan /biz/]
-    C --> I[InvestorsHub]
-    C --> J[BitcoinTalk]
-    C --> K[Twitter/Discord/Telegram]
-    
-    D --> L[LLM Analysis]
-    L --> M[Risk Assessment]
-    L --> N[Pattern Detection]
-    L --> O[Manipulation Signals]
-    
-    E --> P[Scraped Data]
-    E --> Q[AI Responses]
-    E --> R[Analysis Reports]
-```
-
-## Installation
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- OpenRouter API key for LLM access
+- Python 3.8+
+- OpenRouter API key for Claude 3.5 Sonnet
 
-### Setup
+### Installation
 
-1. Clone the repository:
 ```bash
+# Clone the repository
 git clone https://github.com/yourusername/the-intelligent-llm-investor.git
 cd the-intelligent-llm-investor
-```
 
-2. Install dependencies:
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-3. Set your OpenRouter API key:
-```bash
+# Set your API key
 export OPENROUTER_API_KEY="your-api-key-here"
 ```
 
-## Usage
-
 ### Basic Usage
 
-Find top pump & dump candidates automatically:
 ```bash
-python automatic_pump_finder.py
+# Run momentum-based pump detection
+python momentum_pump_finder.py
+
+# With custom parameters
+python momentum_pump_finder.py --threshold 1.0 --hours 6 --analyze 3
 ```
 
-### Advanced Options
+### Parameters
 
-```bash
-# Find top 5 candidates and analyze top 3 with AI
-python automatic_pump_finder.py --top 5 --analyze 3
+- `--threshold`: Minimum momentum score (default: 2.0, lower = more sensitive)
+- `--hours`: Time window to analyze (default: 6)
+- `--analyze`: Number of top momentum clusters to analyze with AI (default: 5)
 
-# Set minimum mention threshold
-python automatic_pump_finder.py --min-mentions 20
+## 📊 How It Works
 
-# Full options
-python automatic_pump_finder.py --help
+### 1. 🌊 Momentum Detection
+The system scans for unusual activity patterns WITHOUT looking for specific tickers:
+- **Reddit**: Analyzes engagement velocity across 36+ investing/crypto subreddits
+- **StockTwits**: Detects activity bursts and trending discussions
+- **4chan**: Monitors high-reply threads on /biz/
+
+### 2. 🎯 Pattern Clustering
+Momentum events are automatically grouped by themes:
+```
+squeeze_play     → Short squeeze discussions
+pump_hype       → Explicit pump language
+earnings_play   → Earnings-related momentum
+crypto_momentum → Cryptocurrency pumps
+sector_tech     → Technology sector activity
 ```
 
-### Output Example
+### 3. 🤖 AI Analysis
+Claude 3.5 Sonnet analyzes top momentum clusters to:
+- **Extract Asset Names**: Identifies companies/cryptos being discussed
+- **Assess Pump Probability**: 0-100% likelihood of manipulation
+- **Detect Coordination**: Cross-platform activity patterns
+- **Identify Red Flags**: Urgency language, new accounts, unrealistic promises
+
+### 4. ⚠️ Risk Assessment
+```
+LOW RISK     → Normal market discussion
+MEDIUM RISK  → Elevated activity, monitor closely  
+HIGH RISK    → Multiple pump indicators detected
+```
+
+## 📈 Example Output
 
 ```
-🔍 Scanning social media for pump & dump activity...
-├─ Minimum mentions: 10
-├─ Finding top: 5 candidates
-└─ AI analysis for: top 3
-
-✅ Scan completed in 45.2 seconds!
-
-📊 FOUND 127 TOTAL TICKERS
-   Active (>10 mentions): 12
-
-🏆 TOP 5 TRENDING TICKERS:
-------------------------------------------------------------
-  # 1 $PUMP   - 145 mentions
-  # 2 $SCAM   -  89 mentions  
-  # 3 $MOON   -  67 mentions
-  # 4 $BTC    -  45 mentions
-  # 5 $DOGE   -  32 mentions
-
-📊 AI ANALYSIS RESULTS:
+🤖 AI ANALYSIS:
 ============================================================
 
-🔴 #1 $PUMP
-   Pump Probability: 95%
-   Risk Level: EXTREME
-   Confidence: 92%
-   Phase: Active pumping
-   
-   Key Findings:
-   - Coordinated posting across multiple platforms
-   - Unusual volume spike (2400% increase)
-   - Multiple new accounts promoting
-   
-   Red Flags:
-   - "Get in now before it's too late" messaging
-   - Promise of 10x returns
-   - No fundamental basis for price movement
+📊 SECTOR TECH:
+   Pump Probability: 75%
+   Type: tech_penny_stock
+   Coordination: 7/10
+   Action: high_alert
+   🎯 Assets Detected: AMD, OpenAI, Tesla
+   📈 Top Mentions:
+      • AMD: 15 mentions
+      • Tesla: 8 mentions
+      • OpenAI: 5 mentions
+   ⚠️ Red Flags: coordinated surge, urgency language, new accounts
+
+📊 SQUEEZE PLAY:
+   Pump Probability: 82%
+   Type: squeeze_play
+   Coordination: 8/10
+   Action: high_alert
+   🎯 Assets Detected: GameStop, AMC Entertainment
+   📈 Top Mentions:
+      • GameStop: 23 mentions
+      • AMC Entertainment: 18 mentions
+   ⚠️ Red Flags: MOON language, short interest claims, coordinate timing
+
+⚡ OVERALL RISK: HIGH
+   Highest Pump Probability: 82%
 ```
 
-## Data Storage
+## 🏗️ Architecture
 
-All data is saved in the `pump_data/` directory:
-
-```
-pump_data/
-├── scraped/          # Raw scraped data from each platform
-├── llm_responses/    # AI analysis results
-└── reports/          # Comprehensive pump reports
-```
-
-## Supported Platforms
-
-### Social Media
-- **Reddit**: wallstreetbets, pennystocks, Shortsqueeze, SqueezePlays
-- **StockTwits**: Trending stocks and message streams
-- **4chan /biz/**: Cryptocurrency and stock discussions
-- **InvestorsHub**: Penny stock message boards
-- **BitcoinTalk**: Cryptocurrency announcements and discussions
-
-### Coming Soon
-- Twitter/X (requires API credentials)
-- Discord servers (requires bot token)
-- Telegram channels (requires API credentials)
-
-## Configuration
-
-Edit `config/config.yaml` to customize:
-
-```yaml
-scrapers:
-  reddit:
-    subreddits:
-      - wallstreetbets
-      - pennystocks
-      - Shortsqueeze
+```mermaid
+graph TD
+    A[momentum_pump_finder.py] --> B[MomentumPumpScanner]
     
-  pump_keywords:
-    - "short squeeze"
-    - "to the moon"
-    - "rocket ship"
-    - "next GME"
+    B --> C[1. Find Momentum Events]
+    B --> D[2. Cluster by Themes]
+    B --> E[3. Analyze Patterns]
+    B --> F[4. AI Asset Extraction]
     
-ai:
-  model: "anthropic/claude-3-opus"
-  temperature: 0.3
-  max_tokens: 4000
+    C --> G[Reddit Scanner<br/>36+ Subreddits]
+    C --> H[StockTwits<br/>Trending Activity]
+    C --> I[4chan /biz/<br/>High-Reply Threads]
+    
+    D --> J[Theme Detection]
+    J --> K[squeeze_play]
+    J --> L[pump_hype]
+    J --> M[earnings_play]
+    J --> N[crypto_momentum]
+    
+    E --> O[Platform Patterns]
+    E --> P[Risk Indicators]
+    
+    F --> Q[MomentumAnalyst AI]
+    Q --> R[Extract Company Names]
+    Q --> S[Assess Pump Probability]
+    Q --> T[Detect Coordination]
+    
+    R --> U[Output:<br/>AMD, Tesla, GameStop]
 ```
 
-## API Keys
-
-The system uses OpenRouter for LLM access. Get your API key at [openrouter.ai](https://openrouter.ai).
-
-Supported models:
-- Claude 3 Opus (recommended)
-- GPT-4
-- Claude 3 Sonnet
-- Any model available on OpenRouter
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 the-intelligent-llm-investor/
-├── automatic_pump_finder.py   # Main entry point
+├── momentum_pump_finder.py      # Main entry point
 ├── config/
-│   └── config.yaml           # Configuration settings
+│   └── config.yaml             # Configuration settings
 ├── src/
 │   ├── agents/
-│   │   └── super_analyst.py  # AI analysis engine
+│   │   ├── momentum_analyst.py # AI momentum analysis
+│   │   └── super_analyst.py    # Enhanced LLM analyzer
+│   ├── scanners/
+│   │   ├── momentum_pump_scanner.py # Core momentum engine
+│   │   ├── social_pump_scanner.py   # Ticker-based scanner (legacy)
+│   │   └── smart_pump_detector.py   # Pattern detection
 │   ├── scrapers/
-│   │   ├── yars_scraper.py   # Reddit scraper
+│   │   ├── yars_scraper.py     # Reddit (no API needed)
 │   │   ├── stocktwits_scraper.py
 │   │   ├── fourchan_biz_scraper.py
 │   │   ├── investorshub_scraper.py
 │   │   ├── bitcointalk_scraper.py
 │   │   └── social_media_aggregator.py
-│   ├── scanners/
-│   │   └── social_pump_scanner.py  # Main scanner logic
 │   └── utils/
-│       ├── data_saver.py     # Data persistence
-│       ├── llm_formatter.py  # LLM optimization
-│       └── logger.py         # Logging utilities
+│       ├── logger.py           # Logging utilities
+│       ├── data_saver.py       # Data persistence
+│       └── llm_formatter.py    # LLM optimization
 ```
 
-## Risk Disclaimer
+## 🔧 Configuration
 
-**IMPORTANT**: This tool is for educational and research purposes only. It should not be used as the sole basis for investment decisions. Always conduct your own due diligence and consult with financial professionals before making investment decisions.
+Edit `config/config.yaml` to customize:
 
-The detection of pump & dump schemes is based on pattern analysis and AI interpretation, which may not be 100% accurate. False positives and false negatives are possible.
+### Subreddit Monitoring
+```yaml
+target_subreddits:
+  high_risk:
+    - pennystocks
+    - CryptoMoonShots
+    - Shortsqueeze
+  medium_risk:
+    - wallstreetbets
+    - stocks
+  crypto:
+    - CryptoCurrency
+    - SatoshiStreetBets
+```
 
-## Contributing
+### Detection Settings
+```yaml
+pump_detection:
+  smart_mode:
+    enabled: true          # AI-based detection
+    analyze_trending: true # Analyze patterns
+  search_strategies:
+    momentum_terms: ["squeeze", "moon", "rocket"]
+    volume_terms: ["heavy buying", "accumulation"]
+```
+
+## 🛡️ Data Privacy
+
+- All data is stored locally in `pump_data/`
+- No data is sent to external services except OpenRouter for AI analysis
+- Scraped content is preserved for transparency and verification
+
+## ⚠️ Disclaimer
+
+**IMPORTANT**: This tool is for educational and research purposes only. 
+
+- Pump & dump schemes are illegal in most jurisdictions
+- Never make investment decisions based solely on automated analysis
+- Always conduct your own due diligence
+- Past patterns don't guarantee future results
+
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Development Setup
+### Areas for Improvement
+- Add more platform scrapers (Discord, Telegram)
+- Implement real-time monitoring mode
+- Add backtesting capabilities
+- Improve ML-based pattern detection
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgments
+## 🔗 Resources
 
-- OpenRouter for LLM API access
-- YARS (Yet Another Reddit Scraper) for Reddit data
-- The open-source community for various scraping techniques
+- [OpenRouter API](https://openrouter.ai/) - LLM access
+- [SEC Market Manipulation Guide](https://www.sec.gov/oiea/investor-alerts-bulletins/ia_pumpanddump.html)
+- [Pump & Dump Detection Research](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3915196)
 
 ---
 
 <div align="center">
-Made with ❤️ for retail investors
+Built with ❤️ for retail investor protection
 
-**Remember: Knowledge is power. Stay informed, stay safe.**
+**Stay informed. Stay safe. 🛡️**
 </div>

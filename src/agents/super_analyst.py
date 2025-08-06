@@ -348,9 +348,33 @@ Respond with JSON: {{"ticker": "{ticker}", "quick_risk": "LOW|MEDIUM|HIGH", "rea
             if response.status_code == 200:
                 result = response.json()
                 content = result['choices'][0]['message']['content']
-                return json.loads(content)
+                
+                # Try to extract JSON from the response
+                try:
+                    # Remove markdown code blocks if present
+                    if '```json' in content:
+                        content = content.split('```json')[1].split('```')[0].strip()
+                    elif '```' in content:
+                        content = content.split('```')[1].split('```')[0].strip()
+                    
+                    return json.loads(content)
+                except:
+                    # Fallback: try to extract risk level from text
+                    content_lower = content.lower()
+                    if 'high' in content_lower:
+                        risk = 'HIGH'
+                    elif 'medium' in content_lower:
+                        risk = 'MEDIUM'
+                    else:
+                        risk = 'LOW'
+                    
+                    return {
+                        "ticker": ticker, 
+                        "quick_risk": risk, 
+                        "reason": content[:100] if len(content) > 100 else content
+                    }
             else:
-                return {"ticker": ticker, "quick_risk": "UNKNOWN", "reason": "API error"}
+                return {"ticker": ticker, "quick_risk": "UNKNOWN", "reason": f"API error: {response.status_code}"}
                 
         except Exception as e:
             self.logger.error(f"Quick check error: {e}")

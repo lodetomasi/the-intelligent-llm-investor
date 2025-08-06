@@ -118,3 +118,97 @@ monitoring:
   
   # Log level
   log_level: "INFO"
+
+# Pump Detection Configuration
+pump_detection:
+  # Search strategies
+  search_strategies:
+    # Direct pump keywords (high confidence)
+    explicit_pump_terms:
+      - "pump"
+      - "pump and dump"
+      - "coordinated pump"
+      - "pump signal"
+      - "pump alert"
+    
+    # Hype/momentum terms (medium confidence)
+    momentum_terms:
+      - "short squeeze"
+      - "gamma squeeze"
+      - "to the moon"
+      - "moonshot"
+      - "rocket"
+      - "explosive gains"
+      - "parabolic"
+      - "breakout"
+      
+    # FOMO terms (medium confidence)
+    fomo_terms:
+      - "last chance"
+      - "don't miss"
+      - "get in now"
+      - "before it's too late"
+      - "millionaire maker"
+      - "life changing"
+      
+    # Volume/activity terms
+    volume_terms:
+      - "unusual volume"
+      - "volume spike"
+      - "heavy buying"
+      - "accumulation"
+      
+  # Subreddits prone to pump activity
+  target_subreddits:
+    high_risk:
+      - pennystocks
+      - RobinHoodPennyStocks
+      - Shortsqueeze
+      - SqueezePlays
+      - smallstreetbets
+      - SqueezeDD
+      - BBIG
+      - amcstock
+      - Superstonk
+    medium_risk:
+      - wallstreetbets
+      - stocks
+      - StockMarket
+      - SPACs
+      - options
+      - Daytrading
+      - swingtrading
+      - weedstocks
+      - shroomstocks
+      - UndervaluedStonks
+      - CanadianPennyStocks
+      - ASX_Bets
+      - StockMarketDD
+      - pennystocksDD
+      - DDintoGME
+    crypto:
+      - CryptoMoonShots
+      - SatoshiStreetBets
+      - CryptoCurrency
+      - AltStreetBets
+    low_risk:
+      - investing
+      - SecurityAnalysis
+      - ValueInvesting
+      - dividends
+      - algotrading
+      - thetagang
+      - greeninvestor
+      - CanadianInvestor
+      - EuropeanStocks
+      - financialindependence
+      
+  # Smart detection mode
+  smart_mode:
+    enabled: true
+    # Instead of searching for keywords, analyze trending posts
+    analyze_trending: true
+    # Look for sudden mention spikes
+    spike_detection: true
+    # Cross-reference multiple platforms
+    cross_platform_validation: true
