@@ -135,14 +135,14 @@ HIGH RISK    → Multiple pump indicators detected
 graph TD
     A[momentum_pump_finder.py] --> B[MomentumPumpScanner]
     
-    B --> C[1. Find Momentum Events]
-    B --> D[2. Cluster by Themes]
-    B --> E[3. Analyze Patterns]
-    B --> F[4. AI Asset Extraction]
+    B --> C["1. Find Momentum Events"]
+    B --> D["2. Cluster by Themes"]
+    B --> E["3. Analyze Patterns"]
+    B --> F["4. AI Asset Extraction"]
     
-    C --> G[Reddit Scanner<br/>36+ Subreddits]
-    C --> H[StockTwits<br/>Trending Activity]
-    C --> I[4chan /biz/<br/>High-Reply Threads]
+    C --> G["Reddit Scanner<br/>36+ Subreddits"]
+    C --> H["StockTwits<br/>Trending Activity"]
+    C --> I["4chan /biz/<br/>High-Reply Threads"]
     
     D --> J[Theme Detection]
     J --> K[squeeze_play]
@@ -154,11 +154,11 @@ graph TD
     E --> P[Risk Indicators]
     
     F --> Q[MomentumAnalyst AI]
-    Q --> R[Extract Company Names]
-    Q --> S[Assess Pump Probability]
-    Q --> T[Detect Coordination]
+    Q --> R["Extract Company Names"]
+    Q --> S["Assess Pump Probability"]
+    Q --> T["Detect Coordination"]
     
-    R --> U[Output:<br/>AMD, Tesla, GameStop]
+    R --> U["Output:<br/>AMD, Tesla, GameStop"]
 ```
 
 ## 📁 Project Structure
