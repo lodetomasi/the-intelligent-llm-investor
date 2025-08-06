@@ -1,0 +1,120 @@
+# Configuration for Intelligent LLM Investor
+
+# API Keys (use environment variables in production)
+api_keys:
+  openrouter: ${OPENROUTER_API_KEY}
+  reddit_client_id: ${REDDIT_CLIENT_ID}
+  reddit_client_secret: ${REDDIT_CLIENT_SECRET}
+  reddit_user_agent: "IntelligentLLMInvestor/1.0"
+
+# Reddit Configuration
+reddit:
+  subreddits:
+    - wallstreetbets
+    - stocks
+    - pennystocks
+    - investing
+    - StockMarket
+    - Superstonk
+    - options
+  
+  # Posts to fetch per subreddit
+  post_limit: 100
+  
+  # Comment depth
+  comment_limit: 50
+  
+  # Streaming interval (seconds)
+  stream_interval: 60
+
+# Analysis Configuration
+analysis:
+  # Minimum posts required for analysis
+  min_posts_threshold: 10
+  
+  # Time windows for analysis (hours)
+  time_windows:
+    recent: 1
+    short_term: 6
+    medium_term: 24
+    long_term: 168  # 1 week
+  
+  # Volume spike thresholds
+  volume_thresholds:
+    warning: 200  # 200% increase
+    alert: 300    # 300% increase
+    extreme: 500  # 500% increase
+
+# Alert Configuration
+alerts:
+  # Risk thresholds
+  risk_thresholds:
+    low: 0.3
+    medium: 0.5
+    high: 0.7
+    extreme: 0.9
+  
+  # Coordination thresholds
+  coordination_threshold: 0.7
+  
+  # Pump probability threshold
+  pump_probability_threshold: 0.8
+  
+  # Alert channels
+  channels:
+    file: true
+    console: true
+    email: false
+    webhook: false
+
+# LLM Configuration
+llm:
+  # Default temperature
+  temperature: 0.7
+  
+  # Max tokens per request
+  max_tokens: 2000
+  
+  # Timeout seconds
+  timeout: 30
+  
+  # Retry configuration
+  max_retries: 3
+  retry_delay: 2
+
+# Data Storage
+storage:
+  # Cache settings
+  cache_ttl: 3600  # 1 hour
+  
+  # Database
+  database_url: "sqlite:///data/investor.db"
+  
+  # File paths
+  raw_data_path: "data/raw"
+  processed_data_path: "data/processed"
+  reports_path: "reports"
+  logs_path: "logs"
+
+# Performance
+performance:
+  # Thread pool size
+  max_workers: 10
+  
+  # Batch size for processing
+  batch_size: 50
+  
+  # Rate limiting
+  requests_per_minute: 60
+
+# Monitoring
+monitoring:
+  # Metrics to track
+  metrics:
+    - api_calls
+    - processing_time
+    - alert_count
+    - error_rate
+  
+  # Log level
+  log_level: "INFO"
