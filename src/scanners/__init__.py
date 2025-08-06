@@ -2,6 +2,6 @@
 Scanner modules for automatic detection
 """
 
-from .pump_scanner import PumpScanner
+from .social_pump_scanner import SocialPumpScanner
 
-__all__ = ['PumpScanner']
+__all__ = ['SocialPumpScanner']
